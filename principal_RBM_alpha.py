@@ -55,24 +55,20 @@ def train_RBM(rbm, n_epochs=10, lr=0.1, batch_size=64, X=None):
     N = len(X)
     n_batch = N//batch_size
     for epoch in range(n_epochs):
-        print('epoch: ', epoch)
         np.random.shuffle(X)
         for k in range(n_batch):
             x_0 = X[k*batch_size: (k+1)*batch_size]
             proba_sortie_0 = entree_sortie_RBM(rbm, x_0)
-            h_0 = np.array([np.random.binomial(1, p) for p in proba_sortie_0])
-            print(x_0.shape)
-            print(proba_sortie_0.shape)
-            print(h_0.shape)
+            h_0 = np.random.binomial(1, proba_sortie_0)
             pos_e = x_0.T @ proba_sortie_0
             proba_entree = sortie_entree_RBM(rbm, h_0)
-            x_1 = np.array([np.random.binomial(1, p) for p in proba_entree])
+            x_1 = np.random.binomial(1, proba_entree)
             proba_sortie_1 = entree_sortie_RBM(rbm, x_1)
             neg_e = x_1.T @ proba_sortie_1
             rbm.W += lr*(pos_e - neg_e)
             rbm.a += lr*(x_0 - x_1).sum(axis=0)
             rbm.b += lr*(proba_sortie_0 - proba_sortie_1).sum(axis=0)
-            error = np.sum(x_1 - x_0)**2
+            error = np.sum((x_1 - x_0)**2)
             print('Squarred Error: ', error)
 
     return rbm

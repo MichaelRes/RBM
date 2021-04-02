@@ -3,11 +3,11 @@ from principal_RBM_alpha import lire_alpha_digit, init_RBM, \
 
 size_v = [320, 100, 320, 200, 320, 200, 320]
 n_iter = 100
-lr = 0.1
+lr = 0.01
 batch_size = 20
-n_epochs = 50
+n_epochs = 500
 n_data = 5
-L = [0, 10]  # characters to learn
+L = [0]  # characters to learn
 
 
 if __name__ == "__main__":
