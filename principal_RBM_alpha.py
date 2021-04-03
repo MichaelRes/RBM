@@ -47,7 +47,7 @@ def sortie_entree_RBM(rbm, hid):
     return sigmoid(hid @ rbm.W.T + rbm.a)
 
 
-def train_RBM(rbm, n_epochs=10, lr=0.1, batch_size=64, X=None):
+def train_RBM(rbm, n_epochs=10, lr=0.1, batch_size=64, X=None, print_error=True):
 
     N = len(X)
     n_batch = int(N//batch_size)
@@ -66,7 +66,7 @@ def train_RBM(rbm, n_epochs=10, lr=0.1, batch_size=64, X=None):
             rbm.a += lr*(x_0 - x_1).sum(axis=0)
             rbm.b += lr*(p_h_v_0 - p_h_v_1).sum(axis=0)
             error = np.sum((x_1 - x_0)**2)
-            print('Squarred Error: ', error)
+            if print_error: print('Squarred Error: ', error)
     return rbm
 
 

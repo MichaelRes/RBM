@@ -5,7 +5,7 @@ import random
 import matplotlib.pyplot as plt
 
 
-class DBN():
+class DNN():
     def __init__(self, rbms):
         self.rbms = rbms
 
@@ -15,13 +15,13 @@ def init_DNN(size_v):
     for i in range(len(size_v)-1):
         rbms.append(init_RBM(size_v[i], size_v[i+1]))  # adapting dimensions of the rbms
 
-    dbn = DBN(rbms)
+    dbn = DNN(rbms)
     return dbn
 
 
-def pretrain_DNN(dbn, n_epochs=10, lr=0.1, batch_size=64, X=None):
+def pretrain_DNN(dbn, n_epochs=10, lr=0.1, batch_size=64, X=None, print_error=True):
     for i in range(len(dbn.rbms)):
-        dbn.rbms[i] = train_RBM(dbn.rbms[i], n_epochs, lr, batch_size, X)
+        dbn.rbms[i] = train_RBM(dbn.rbms[i], n_epochs, lr, batch_size, X, print_error)
         X = entree_sortie_RBM(dbn.rbms[i], X)
 
     return dbn
