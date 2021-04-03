@@ -3,7 +3,7 @@ import numpy as np
 
 
 def calcul_softmax(rbm, X):
-    sortie = entree_sortie_RBM(rbm, X)
+    sortie = X @ rbm.W + rbm.b
     res = np.exp(sortie)/sum(np.exp(sortie))
     return res
 
@@ -18,6 +18,7 @@ def entree_sortie_reseau(dnn, X):
 
 
 def retropropagation(dnn, n_epochs=10, lr=0.1, batch_size=64, X=None, y=None):
+
     N = len(X)
     n_batch = int(N//batch_size)
     for _ in range(n_epochs):
@@ -47,5 +48,8 @@ def retropropagation(dnn, n_epochs=10, lr=0.1, batch_size=64, X=None, y=None):
     
     return dnn
 
-def test_DNN():
-    return
+def test_DNN(dnn, X_valid, y_valid):
+    y_pred = np.argmax(entree_sortie_reseau(dnn, X_valid)[-1], axis=0)
+    erreur = np.mean(y_pred == y_valid)
+
+    return erreur
