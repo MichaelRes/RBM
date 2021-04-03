@@ -15,7 +15,7 @@ def init_DNN(size_v):
     for i in range(len(size_v)-1):
         rbms.append(init_RBM(size_v[i], size_v[i+1]))  # adapting dimensions of the rbms
 
-    dbn = DBN(rbms)
+    dbn = DNN(rbms)
     return dbn
 
 
