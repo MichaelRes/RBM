@@ -4,7 +4,7 @@ from principal_RBM_alpha import lire_alpha_digit, init_RBM, \
 from principal_DBN_alpha import init_DNN, \
                                 pretrain_DNN, generer_image_DBN
 
-size_v = [320, 100, 100]
+size_v = [320, 256, 128, 64]
 n_iter = 50
 lr = 0.01
 batch_size = 30
