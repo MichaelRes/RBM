@@ -64,13 +64,15 @@ if __name__ == "__main__":
 
     # initialize dnns
     pretrained_dnn = init_DNN(config_dbn['size_v'])
-    dbn = pretrain_DNN(dbn,
+    pretrained_dnn = pretrain_DNN(pretrained_dnn,
                        n_epochs=config_dbn['n_epochs'],
                        lr=config_dbn['lr'],
                        batch_size=config_dbn['batch_size'],
                        X=X)
 
     dnn = init_DNN(config_dbn['size_v'])
+
+    retropropagation
 
 
 
