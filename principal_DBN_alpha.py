@@ -5,7 +5,7 @@ import random
 import matplotlib.pyplot as plt
 
 
-class DNN():
+class DBN():
     def __init__(self, rbms):
         self.rbms = rbms
 
