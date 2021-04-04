@@ -53,6 +53,7 @@ input_dim = 784
 n_classes_mnist = 10
 
 generate_plots = [False, False, False] # Set to true to generate the corresponding figure
+show_best_model = True  # Set to true to create and train the model with the lowest error (and plot the evolution of the error)
 
 if __name__ == "__main__":
     if config_rbm_alpha['show']:
@@ -223,29 +224,29 @@ if __name__ == "__main__":
         plt.show()
 
     # Looking for the best configuration:
+    if show_best_model:
+        best_config = {
+        'n_epochs_pretrain': 10,
+        'batch_size_pretrain': 25,
+        'lr_pretrain': 0.01,
+        'size_v': [784, 200, 200, 200, 200],
+        'lr': 0.01,
+        'batch_size': 200,
+        'n_epochs': 200,
+        }
 
-    best_config = {
-    'n_epochs_pretrain': 5,
-    'batch_size_pretrain': 50,
-    'lr_pretrain': 0.01,
-    'size_v': [784, 200, 200, 200, 200],
-    'lr': 0.01,
-    'batch_size': 100,
-    'n_epochs': 20,
-    }
-
-    pretrained_dnn = init_DNN(best_config['size_v'])
-    print('-------------Pretraining DNN-------------')
-    pretrained_dnn = pretrain_DNN(pretrained_dnn,
-                                  n_epochs=best_config['n_epochs_pretrain'],
-                                  lr=best_config['lr_pretrain'],
-                                  batch_size=best_config['batch_size_pretrain'],
-                                  X=X, print_error=False)
-    pretrained_dnn.rbms.append(init_RBM(200, n_classes_mnist)) # Add classification layer
-    print('-------------Retropropagation Pretrained DNN-------------')
-    pretrained_dnn = retropropagation(pretrained_dnn, n_epochs=best_config['n_epochs'], lr=best_config['lr'], batch_size=best_config['batch_size'], X_train=X_train, y_train=y_train, X_valid=X_valid, y_valid=y_valid)
-    error = test_DNN(pretrained_dnn, X_valid, y_valid)
-    print('Error Pretrained DNN: ', error)
+        pretrained_dnn = init_DNN(best_config['size_v'])
+        print('-------------Pretraining DNN-------------')
+        pretrained_dnn = pretrain_DNN(pretrained_dnn,
+                                    n_epochs=best_config['n_epochs_pretrain'],
+                                    lr=best_config['lr_pretrain'],
+                                    batch_size=best_config['batch_size_pretrain'],
+                                    X=X, print_error=False)
+        pretrained_dnn.rbms.append(init_RBM(200, n_classes_mnist)) # Add classification layer
+        print('-------------Retropropagation Pretrained DNN-------------')
+        pretrained_dnn = retropropagation(pretrained_dnn, n_epochs=best_config['n_epochs'], lr=best_config['lr'], batch_size=best_config['batch_size'], X_train=X_train, y_train=y_train, X_valid=X_valid, y_valid=y_valid, plot_error=True)
+        error = test_DNN(pretrained_dnn, X_valid, y_valid)
+        print('Error Pretrained DNN: ', error)
 
 
 

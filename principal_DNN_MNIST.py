@@ -1,5 +1,6 @@
 from principal_RBM_alpha import entree_sortie_RBM
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def calcul_softmax(rbm, X):
@@ -20,9 +21,10 @@ def entree_sortie_reseau(dnn, X):
     return layers
 
 
-def retropropagation(dnn, n_epochs=10, lr=0.1, batch_size=64, X_train=None, y_train=None, X_valid=None, y_valid=None):
+def retropropagation(dnn, n_epochs=10, lr=0.1, batch_size=64, X_train=None, y_train=None, X_valid=None, y_valid=None, plot_error=False):
     N = len(X_train)
     n_batch = int(N//batch_size)
+    errors = []
     for l in range(n_epochs):
         print("Epoch %s / %s" % (l+1, n_epochs))
         indexes = np.arange(N)
@@ -48,7 +50,15 @@ def retropropagation(dnn, n_epochs=10, lr=0.1, batch_size=64, X_train=None, y_tr
                 dnn.rbms[-i].W -= lr * dW
                 dnn.rbms[-i].b -= lr * db
         erreur = test_DNN(dnn, X_valid, y_valid)
-        print('erreur: ', erreur)        
+        print('erreur: ', erreur)
+        errors.append(erreur)
+    if plot_error:
+        plt.plot(np.arange(1, n_epochs+1), errors)
+        plt.title('Validation Error rate vs. number of Epochs', fontsize=16)
+        plt.xlabel('number of Epochs', fontsize=12)
+        plt.ylabel('Validation Error rate', fontsize=12)
+        plt.savefig('Fig4.pdf')
+        plt.show()
 
     return dnn
 
